@@ -2,9 +2,9 @@
 {
     public class Cell
     {
-        private readonly bool _bombed;
+        private bool _bombed;
         private bool _opened;
-        private byte _bombsAroundAmount;
+        private int _bombsAroundAmount;
 
         public Cell(bool bombed)
         {
@@ -18,11 +18,15 @@
 
         public bool IsBombed() => _bombed;
         public bool IsOpened() => _opened;
-        public byte GetBombsAroundAmount() => _bombsAroundAmount;
+        public int GetBombsAroundAmount() => _bombsAroundAmount;
 
-        public void SetBombsAroundAmount(byte bombAmount) => _bombsAroundAmount = bombAmount;
         public void Open() => _opened = true;
+        public void AddOneBombAround() => _bombsAroundAmount++;
 
-        public void AddBombAround() => _bombsAroundAmount++;
+        public void Bomb()
+        {
+            _bombed = true;
+            _bombsAroundAmount = 9;
+        }
     }
 }
