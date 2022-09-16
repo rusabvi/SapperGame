@@ -8,60 +8,50 @@
         private int _openedCellAmount;
         private int _bombAmount;
 
-        public Game(int rowAmount, int columnAmount, int bombAmount)
+        public Game(int rowAmount, int columnAmount, int bombAmount, int firstRow, int firstColumn)
         {
             _openedCellAmount = 0;
             _bombAmount = bombAmount;
             _over = false;
             _won = false;
             _cells = new List<List<Cell>>();
+
             for (int i = 0; i < rowAmount; i++)
             {
                 var cellList = new List<Cell>();
-                var random = new Random();
+
                 for (int j = 0; j < columnAmount; j++)
-                {
-                    if (bombAmount > 0)
-                    {
-                        cellList.Add(new Cell(random.Next(100) <= 50));
-                        bombAmount--;
-                    }
-                    else
-                        cellList.Add(new Cell(false));
-                }
+                    cellList.Add(new Cell(false));
 
                 _cells.Add(cellList);
             }
 
-            foreach (var cellRow in _cells)
+            var firstCell = _cells[firstRow][firstColumn];
+            firstCell.Open();
+
+            for (int b = 0; b < bombAmount; b++)
             {
-                foreach (var cell in cellRow)
-                {
-                    if (bombAmount == 0)
-                        break;
+                var random = new Random();
+                int row = random.Next(0, rowAmount - 1), column = random.Next(0, columnAmount - 1);
+                var cell = _cells[row][column];
 
-                    if (!cell.IsBombed())
-                    {
-                        cell.Bomb();
-                        bombAmount--;
-                    }
-                }
-
-                if (bombAmount == 0)
-                    break;
+                if (!cell.IsBombed() && !cell.Equals(firstCell))
+                    cell.Bomb();
+                else
+                    b--;
             }
 
             CheckCells();
         }
 
-        public void CheckCellIfItIsBombed(int row, int column)
+        public void TryToOpenCell(int row, int column)
         {
-            var cellToCheck = _cells[row][column];
-            if (cellToCheck.IsBombed())
+            var cellToTry = _cells[row][column];
+            if (cellToTry.IsBombed())
                 _over = true;
-            if (!cellToCheck.IsOpened())
+            if (!cellToTry.IsOpened())
                 _openedCellAmount++;
-            cellToCheck.Open();
+            cellToTry.Open();
             _won = _openedCellAmount >= _cells.Count * _cells[0].Count - 1 - _bombAmount;
         }
 
@@ -73,8 +63,9 @@
                     var cellToCheck = _cells[i][j];
 
                     if (!cellToCheck.IsBombed())
-                        for (int k = -1; k < 2; k += 1)
-                            for (int l = -1; l < 2; l += 1)
+                    {
+                        for (int k = -1; k < 2; k++)
+                            for (int l = -1; l < 2; l++)
                                 if (!(k == 0 && l == 0))
                                 {
                                     try
@@ -85,12 +76,26 @@
                                     }
                                     catch { ; }
                                 }
+                    }
                 }
         }
 
         public int GetOpenedCellAmount() => _openedCellAmount;
         public bool IsOver() => _over;
         public bool IsWon() => _won;
-        public List<List<Cell>> GetCells() => _cells;
+
+        public List<List<Cell>> GetCells()
+        {
+            var cells = new List<List<Cell>>();
+            for (int i = 0; i < _cells.Count; i++)
+            {
+                var cellRow = new List<Cell>();
+
+                for (int j = 0; j < _cells[i].Count; j++)
+                    cellRow.Add(new Cell(_cells[i][j].IsBombed()));
+            }
+
+            return cells;
+        }
     }
 }

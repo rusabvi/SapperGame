@@ -11,7 +11,7 @@
             _bombed = bombed;
             _opened = false;
             if (_bombed)
-                _bombsAroundAmount = 9;
+                _bombsAroundAmount = 10;
             else
                 _bombsAroundAmount = 0;
         }
@@ -26,7 +26,7 @@
         public void Bomb()
         {
             _bombed = true;
-            _bombsAroundAmount = 9;
+            _bombsAroundAmount = 10;
         }
     }
 }
