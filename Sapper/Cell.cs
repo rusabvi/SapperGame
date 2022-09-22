@@ -4,29 +4,31 @@
     {
         private bool _bombed;
         private bool _opened;
-        private int _bombsAroundAmount;
+        private int _bombAroundAmount;
 
-        public Cell(bool bombed)
+        internal Cell(bool bombed)
         {
+            _opened = false;
+            _bombAroundAmount = 0;
             _bombed = bombed;
             _opened = false;
-            if (_bombed)
-                _bombsAroundAmount = 10;
-            else
-                _bombsAroundAmount = 0;
         }
 
-        public bool IsBombed() => _bombed;
-        public bool IsOpened() => _opened;
-        public int GetBombsAroundAmount() => _bombsAroundAmount;
-
-        public void Open() => _opened = true;
-        public void AddOneBombAround() => _bombsAroundAmount++;
-
-        public void Bomb()
+        public CellValue GetValue()
         {
-            _bombed = true;
-            _bombsAroundAmount = 10;
+            if (!_opened)
+                return CellValue.Unknown;
+
+            if (_bombed)
+                return CellValue.Bomb;
+
+            return (CellValue)_bombAroundAmount;
         }
+
+        internal void Open() => _opened = true;
+        internal void AddOneBombAround() => _bombAroundAmount++;
+        internal void Bomb() => _bombed = true;
+
+        internal bool IsBombed() => _bombed;
     }
 }

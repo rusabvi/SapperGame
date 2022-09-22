@@ -1,5 +1,16 @@
 ﻿using Sapper;
 
+void DrawVoidField(int rowAmount, int columnAmount)
+{
+    for (int i = 0; i < rowAmount; i++)
+    {
+        for (int j = 0; j < columnAmount; j++)
+            Console.Write("*");
+
+        Console.Write("\n");
+    }
+}
+
 void DrawField(List<List<Cell>> cells)
 {
     for (int i = 0; i < cells.Count; i++)
@@ -7,11 +18,16 @@ void DrawField(List<List<Cell>> cells)
         for (int j = 0; j < cells[i].Count; j++)
         {
             var cell = cells[i][j];
-            if (cell.IsOpened())
-                Console.Write(cell.GetBombsAroundAmount());
-            else
+            if (cell.GetValue().Equals(CellValue.Unknown))
                 Console.Write("*");
+
+            else if (cell.GetValue().Equals(CellValue.Bomb))
+                Console.Write("%");
+
+            else
+                Console.Write(cell.GetValue());
         }
+
         Console.Write("\n");
     }
 }
@@ -66,6 +82,7 @@ while (!exit)
     Thread.Sleep(2000);
     Console.Clear();
 
+    DrawVoidField(rowAmount, columnAmount);
     int row = new int(), column = new int();
     Console.WriteLine("Выберите ячейку");
     Console.Write("Ряд: ");
