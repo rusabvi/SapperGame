@@ -25,7 +25,7 @@ void DrawField(List<List<Cell>> cells)
                 Console.Write("%");
 
             else
-                Console.Write(cell.GetValue());
+                Console.Write((byte)cell.GetValue());
         }
 
         Console.Write("\n");
@@ -92,7 +92,7 @@ while (!exit)
     game = new Game(rowAmount, columnAmount, bombAmount, row - 1, column - 1);
     Console.Clear();
 
-    while (!(game.IsOver() || game.IsWon()))
+    while (!game.IsOver() && !game.IsWon())
     {
         DrawField(game.GetCells());
         Console.WriteLine("Выберите ячейку");

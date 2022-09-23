@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sapper", "Sapper\Sapper.csproj", "{F9CB5D9A-7667-4DB2-92A2-A72EE0F9D078}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sapper", "Sapper\Sapper.csproj", "{F9CB5D9A-7667-4DB2-92A2-A72EE0F9D078}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SapperConsoleApp", "SapperConsoleApp\SapperConsoleApp.csproj", "{16A3A194-54BB-46C8-98CA-5976218879BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SapperConsoleApp", "SapperConsoleApp\SapperConsoleApp.csproj", "{16A3A194-54BB-46C8-98CA-5976218879BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

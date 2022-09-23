@@ -100,35 +100,17 @@
                 throw new Exception("Column should be more -1 and less column amount");
 
             var cellToTry = _cells[row][column];
-            if (cellToTry.GetValue().Equals(CellValue.Bomb))
-                _over = true;
 
             if (cellToTry.GetValue().Equals(CellValue.Unknown))
-                _openedCellAmount++;
-
-            cellToTry.Open();
-            _won = _openedCellAmount >= _cells.Count * _cells[0].Count - 1 - _bombAmount;
-        }
-        
-        public List<List<Cell>> GetCells()
-        {
-            var cells = new List<List<Cell>>();
-
-            for (int i = 0; i < _cells.Count; i++)
             {
-                var cellList = new List<Cell>();
-
-                for (int j = 0; j < _cells[i].Count; j++)
-                {
-                    var cellToCopy = _cells[i][j];
-                    cellList.Add(new Cell(cellToCopy.IsBombed()));
-                }
-
-                cells.Add(cellList);
+                _openedCellAmount++;
+                cellToTry.Open();
+               _over = cellToTry.GetValue().Equals(CellValue.Bomb);
+                _won = _openedCellAmount >= _cells.Count * _cells[0].Count - _bombAmount - 1;
             }
-
-            return cells;
         }
+
+        public List<List<Cell>> GetCells() => _cells;
 
         public bool IsOver() => _over;
         public bool IsWon() => _won;
